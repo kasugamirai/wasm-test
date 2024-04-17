@@ -33,8 +33,7 @@
             // Define a general event handler
             const handleEvent = async (relayUrl, subscriptionId, event) => {
                 console.log("Received new event from", relayUrl, "Subscription ID:", subscriptionId);
-                // Here, handle events as needed. Assuming decrypt and response:
-                if (event.kind === 4) { // Assuming kind 4 is a direct message
+                if (event.kind === 4) {
                     let clientIndex = clients.findIndex(c => c.key.publicKey.toHex() === event.author.toHex());
                     if (clientIndex !== -1) {
                         try {
@@ -48,7 +47,6 @@
                 }
             };
 
-            // Define a message handler
             const handleMsg = async (relayUrl, message) => {
                 console.log("Received message from", relayUrl, ": ", message.asJson());
             };

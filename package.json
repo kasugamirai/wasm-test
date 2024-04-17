@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@rust-nostr/nostr": "^0.13.0",
+    "@rust-nostr/nostr-sdk": "^0.13.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  }
+}

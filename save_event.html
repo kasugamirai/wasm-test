@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nostr SDK Database Test</title>
+    <script src="dist/nostr-sdk-bundle.js"></script>
+    <script>
+        async function main() {
+            await NostrSDK.loadWasmAsync();
+            let keys = NostrSDK.Keys.generate();
+            let metadata = new NostrSDK.Metadata()
+                .name("test")
+                .displayName("My Username")
+                .about("Description")
+                .picture("https://example.com/avatar.png")
+                .banner("https://example.com/banner.png")
+                .nip05("username@example.com")
+                .lud16("yuki@getalby.com");
+            let event = NostrSDK.EventBuilder.metadata(metadata).toEvent(keys);
+
+            try {
+                let db = await NostrSDK.NostrDatabase.indexeddb("nostr");
+                db.save_event(event);
+            } catch (error) {
+                console.error("Error initializing Nostr database:", error);
+            }
+        }
+
+        main();
+    </script>
+</head>
+<body>
+    <h1>Nostr SDK Database Test</h1>
+</body>
+</html>

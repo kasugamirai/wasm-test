@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nostr SDK Test</title>
+    <script src="dist/nostr-sdk-bundle.js"></script>
+    <script>
+        async function main() {
+            await NostrSDK.loadWasmAsync();
+
+            // Compose client with private key
+            let keys = NostrSDK.Keys.generate(); // Random keys
+            console.log("Public key (hex): ", keys.publicKey.toHex());
+            console.log("Secret key (hex): ",keys.secretKey.toHex());
+            console.log("Public key (bech32): ", keys.publicKey.toBech32());
+            console.log("Secret key (bech32): ", keys.secretKey.toBech32());
+            let signer = NostrSDK.NostrSigner.keys(keys);
+            let client = new NostrSDK.Client(signer);
+
+            // Add relays
+            await client.addRelay("wss://relay.damus.io");
+
+            // Add multiple relays at once
+            await client.addRelays([
+                "wss://nostr.oxtr.dev",
+                "wss://relay.nostr.band",
+            ]);
+
+            await client.connect();
+
+            let metadata = new NostrSDK.Metadata()
+                .name("username")
+                .displayName("My Username")
+                .about("Description")
+                .picture("https://example.com/avatar.png")
+                .banner("https://example.com/banner.png")
+                .nip05("username@example.com")
+                .lud16("yuki@getalby.com");
+
+            await client.setMetadata(metadata);
+
+            // Publish text note
+            await client.publishTextNote("My first text note from Nostr SDK!", []);
+        }
+
+        main();
+    </script>
+</head>
+<body>
+<h1>Nostr SDK Test</h1>
+</body>
+</html>
